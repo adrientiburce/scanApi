@@ -50,6 +50,10 @@ task('database:migrate', function () {
     run(sprintf('{{bin/console}} doctrine:migrations:migrate %s', $options));
 });
 
+task('fixtures:load', function () {
+    run('{{bin/console}} doctrine:fixtures:load --env=dev');
+});
+
 task('deploy:vendors', function () {
     // Your custom update code
     run("export APP_ENV='prod'; cd {{release_path}} && composer install --verbose --prefer-dist --no-progress --no-interaction --optimize-autoloader");
@@ -81,8 +85,8 @@ after('deploy:failed', 'deploy:unlock');
 //after('deploy:update_code', 'update:env');
 
 // Migrate database before symlink new release.
-// before('deploy:symlink', 'database:migrate');
-
+before('deploy:symlink', 'database:migrate');
+after('database:migrate', 'fixtures:load');
 
 /**
  * Main task
