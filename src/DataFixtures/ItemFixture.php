@@ -34,7 +34,7 @@ class ItemFixture extends Fixture
                 $item = new Item();
                 $item->setTitle(self::ALL_ITEMS[$i][$j])// jème element du ième table de ALL_ITEMS
                     ->setCategory($this->getReference(CategoryFixture::ALL_CATEGORY[$i]))
-                    ->setPrice(mt_rand(5, 50))
+                    ->setPrice(mt_rand(1, 20))
                     ->setWeight(mt_rand(1, 30))
                     ->setFragility(mt_rand(0, 5));
                 $manager->persist($item);
