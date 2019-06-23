@@ -2,8 +2,6 @@
 namespace Deployer;
 
 require 'recipe/symfony.php';
-//require './deploy_env.php';
-
 
 // Project name
 set('application', 'scan-api');
@@ -25,17 +23,11 @@ set('allow_anonymous_stats', false);
 
 // Hosts
 host('webrush')
-//    ->user($SSH_NAME)
-//    ->port($SSH_PORT)
     ->stage('prod')
     ->set('deploy_path', '/var/www/{{application}}')
     ->set('env', [
         'APP_ENV'=>'prod',
         ]);
-    
-task('test', function () {
-    writeln("Hello ");
-});
 
 set('bin/console', function () {
     return parse('{{bin/php}} {{release_path}}/bin/console --no-interaction');
@@ -68,8 +60,7 @@ task('deploy:cache:clear', function() {
 // });
 
 task('deploy:change:acl', function() {
-    run("cd {{release_path}} && setfacl -Rm 'u:www-data:rwx' var/ && setfacl -Rm 'u:www-data:rwx' var/");
-    run("cd {{release_path}} && setfacl -Rm 'u:www-data:rwx' public/course && setfacl -Rm 'u:www-data:rwx' public/course");
+    run("cd {{release_path}} && setfacl -R 'u:www-data:rwx' var/ && setfacl -Rm 'u:www-data:rwx' var/");
 });
 
 task('update:env', function () {

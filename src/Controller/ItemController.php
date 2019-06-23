@@ -18,26 +18,16 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/category/item", name="item")
-     */
-    public function index()
-    {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ItemController.php',
-        ]);
-    }
-
-    /**
      * @Route("/api/item",  methods={"GET"})
      */
     public
     function getAllItems()
     {
-        $items = $this->itemRepo->findAll();
+        $items = $this->itemRepo->findAllSorted();
+        $serializer = $this->get('serializer');
 
         return new JsonResponse([
-            'items' => $items,
+            'items' => $serializer->normalize($items),
         ], 200);
     }
 }

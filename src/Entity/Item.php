@@ -112,10 +112,10 @@ class Item implements JsonSerializable
     {
         return array(
             'id' => $this->id,
-            'idCategory' => $this->category->getId(),
             'name' => $this->title,
             'price' => $this->price,
-            'weight' => $this -> weight
+            'weight' => $this -> weight,
+            'category' => $this->category, // give name, absisse & ordonnee
         );
     }
 }
