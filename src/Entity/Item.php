@@ -43,6 +43,17 @@ class Item implements JsonSerializable
      */
     private $fragility;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $hash;
+
+
+    public function __construct()
+    {
+        $this->hash = bin2hex(random_bytes(10));
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -112,10 +123,23 @@ class Item implements JsonSerializable
     {
         return array(
             'id' => $this->id,
+            'hash' => $this->hash,
             'name' => $this->title,
             'price' => $this->price,
             'weight' => $this -> weight,
             'category' => $this->category, // give name, absisse & ordonnee
         );
+    }
+
+    public function getHash(): ?string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(string $hash): self
+    {
+        $this->hash = $hash;
+
+        return $this;
     }
 }
